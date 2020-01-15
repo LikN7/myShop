@@ -1,9 +1,10 @@
 <?php
 namespace app\lib\exception;
 use Exception;
+use think\Config;
 use think\exception\Handle;
 use think\Request;
-
+use think\Log;
 /**
  * Created by PhpStorm.
  * User: Administrator
@@ -26,9 +27,17 @@ class ExceptionHandler extends Handle
             $this->msg = $ex->msg;
             $this->errorCode = $ex->errorCode;
         }else{
-            $this->code = 500;
-            $this->msg = '服务器内部错误';
-            $this->errorCode = 999;
+//            Config::get('app_debug');
+            $switch = config('app_debug');
+            if ($switch){
+             //继承父类render
+               return parent::render($ex);
+            }else{
+                $this->code = 500;
+                $this->msg = '服务器内部错误';
+                $this->errorCode = 999;
+                $this->recordErrorLog($ex);
+            }
     }
     $request = Request::instance();
     $result = [
@@ -37,5 +46,13 @@ class ExceptionHandler extends Handle
         'request_url' => $request->url(),
     ];
         return json($result,$this->code);
+    }
+    public function recordErrorLog(Exception $e){
+        Log::init([
+            'type' => 'File',
+            'path' => 'LOG_PATH',
+            'level' => ['error'],
+        ]);
+        Log::record($e->getMessage(),'error');
     }
 }

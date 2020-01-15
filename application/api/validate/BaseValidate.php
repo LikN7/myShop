@@ -9,7 +9,7 @@
 namespace app\api\validate;
 
 
-use think\Exception;
+use app\lib\exception\ParamException;
 use think\Request;
 use think\Validate;
 
@@ -19,10 +19,16 @@ class BaseValidate extends Validate
         //1.获取HTTP参数 2.对参数做校验
         $request = Request::instance();
         $param = $request->param();
-        $result = $this->check($param);
+        $result = $this->batch()->check($param);
         if (!$result){
-            $error = $this->error;
-            throw new Exception($error);
+            $e = new ParamException([
+                'msg' => $this->error,
+            ]);
+//            $e->msg = $this->error;
+//            $e->errorCode = 10002;
+            throw $e;
+//            $error = $this->error;
+//            throw new Exception($error);
         }else{
             return true;
         }

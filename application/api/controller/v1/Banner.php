@@ -21,7 +21,7 @@ class Banner
      * @http Get
     */
     public function getBanner($id){
-//        (new IDMustbeInt())->goCheck();
+        (new IDMustbeInt())->goCheck();
         $banner = BannerModel::getBannerByID($id);
         if(!$banner){
             throw new BannerMissException();
