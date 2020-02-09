@@ -3,8 +3,6 @@ namespace app\api\controller\v1;
 
 use app\api\validate\IDMustbeInt;
 use app\lib\exception\BannerMissException;
-use think\Exception;
-use think\Validate;
 use app\api\model\Banner as BannerModel;
 /**
  * Created by PhpStorm.

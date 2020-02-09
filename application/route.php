@@ -11,4 +11,15 @@
 use think\Route;
 Route::rule('index','index/index/index');
 
-Route::get('api/banner/:id','api/v1.Banner/getBanner');
+Route::get('api/:version/banner/:id','api/:version.Banner/getBanner');
+
+Route::get('api/:version/theme','api/:version.Theme/getSimpleList');
+
+Route::get('api/:version/theme/:id','api/:version.Theme/getCompleOne');
+
+Route::get('api/:version/product','api/:version.Product/getRecent');
+Route::get('api/:version/product/by_category','api/:version.Product/getAllInCategory');
+
+Route::get('api/:version/category','api/:version.Category/getAllCategory');
+
+Route::post('api/:version/token/user','api/:version.Token/getToken');

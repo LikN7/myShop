@@ -20,7 +20,7 @@ class BaseException extends Exception
     //自定义错误信息
     public $errorCode = 10000;
 
-    public function __construct($param = []){
+        public function __construct($param = []){
 
         if (!is_array($param)){
             return $param;
